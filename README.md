@@ -13,7 +13,7 @@
 
 # Java Spark Projects
 
-![alt text](./images/Spark.png)
+![alt text](./Spark.png)
 
 This repository contains following Projects
 
