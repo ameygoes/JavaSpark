@@ -1,5 +1,6 @@
-package com.jobreadyprogrammer.spark;
+package com.amey.java.spark;
 
+import com.amey.java.spark.sparkItutils.SparkUtils;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -10,11 +11,10 @@ import org.apache.spark.sql.types.StructType;
 public class DefineCSVSchema {
 
 	public void printDefinedSchema() {
-	
-        SparkSession spark = SparkSession.builder()
-        .appName("Complex CSV with a schema to Dataframe")
-        .master("local")
-        .getOrCreate();
+
+		SparkUtils sparkUtils = new SparkUtils();
+
+		SparkSession spark = sparkUtils.getSparkSession("Complex CSV to Dataframe with predefined schema");
         
         StructType schema = DataTypes.createStructType(new StructField[] { //
 	            DataTypes.createStructField(
@@ -38,15 +38,8 @@ public class DefineCSVSchema {
 	                DataTypes.StringType,
 	                false) });
 	     
-	        Dataset<Row> df = spark.read().format("csv")
-	            .option("header", "true")
-	            .option("multiline", true)
-	            .option("sep", ";")
-	            .option("dateFormat", "M/d/y")
-	            .option("quote", "^")
-	            .schema(schema) //
-	            .load("src/main/resources/amazonProducts.txt");
-	     
+	        Dataset<Row> df = sparkUtils.readComplexCSVWithSchema(spark, schema);
+
 	        df.show(5, 15);
 	        df.printSchema();
 		
